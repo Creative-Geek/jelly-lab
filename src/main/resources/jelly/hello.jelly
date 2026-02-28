@@ -109,6 +109,34 @@
                 <p>Calculated Age: ${functions.calculateAge(userDob)} years old</p>
             </div>
 
+            <!-- /// Function that takes a date and calculates age in years (client side) /// -->
+            <h2>Function that takes a date and calculates age in years (client side)</h2>
+            <p style="color: gray;">Enter your date of birth:</p>
+
+            <div>
+                <input type="date" id="dobInput" />
+                <button onclick="calculateAge()">Calculate Age</button>
+                <p id="ageResult"></p>
+            </div>
+
+            <script>
+                function calculateAge() {
+                    var dob = document.getElementById('dobInput').value;
+                    if (!dob) {
+                        document.getElementById('ageResult').innerText = 'Please enter a date.';
+                        return;
+                    }
+                    var today = new Date();
+                    var birthDate = new Date(dob);
+                    var age = today.getFullYear() - birthDate.getFullYear();
+                    var m = today.getMonth() - birthDate.getMonth();
+                    if (m &lt; 0 || (m === 0 &amp;&amp; today.getDate() &lt; birthDate.getDate())) {
+                        age--;
+                    }
+                    document.getElementById('ageResult').innerText = 'Calculated Age: ' + age + ' years old';
+                }
+            </script>
+
             <hr />
 
             <!-- Function that throws an error if password is less than 8 characters -->

@@ -1,0 +1,143 @@
+<j:jelly trim="true" xmlns:j="jelly:core">
+    <html>
+        <head>
+            <title>Hello Scripts</title>
+        </head>
+        <body style="font-family: Arial, sans-serif; padding: 20px;">
+            <j:new className="com.example.SimpleFunctions" var="functions" />
+
+            <!-- /// Custom Date Task /// -->
+            <h2>Custom Date Task</h2>
+
+            <!-- get a java calendar object/instance -->
+            <p style="color: gray;">Setting the date to 2025/01/01</p>
+            <j:invokeStatic className="java.util.Calendar" method="getInstance" var="cal" />
+
+            <!-- set the date to 2025/01/01 -->
+            <j:invoke on="${cal}" method="set">
+                <j:arg value="2025" type="int" />
+                <j:arg value="0" type="int" />
+                <j:arg value="1" type="int" />
+            </j:invoke>
+
+            <j:invoke on="${cal}" method="getTime" var="customDate" />
+
+            <p>${customDate}</p>
+
+            <hr />
+
+            <!-- /// Random Number Task /// -->
+            <h2>Random Number Task</h2>
+
+            <p style="color: gray;">Generating a random number between 0 and 100</p>
+
+            <j:invokeStatic className="java.lang.Math" method="random" var="random" />
+            <j:set var="random" value="${random * 100}" />
+            <p>${random.intValue()}</p>
+
+            <hr />
+
+            <!-- /// Min Max Task /// -->
+            <h2>Min Max Task</h2>
+            <p style="color: gray;">Input: 10, 20, 30</p>
+            <!-- create an array and add to it 10, 20, 30 -->
+            <j:new className="java.util.ArrayList" var="numbers" />
+
+            <j:invoke on="${numbers}" method="add">
+                <j:arg value="10" />
+            </j:invoke>
+
+            <j:invoke on="${numbers}" method="add">
+                <j:arg value="20" />
+            </j:invoke>
+
+            <j:invoke on="${numbers}" method="add">
+                <j:arg value="30" />
+            </j:invoke>
+            <!-- sort the array -->
+            <j:invokeStatic className="java.util.Collections" method="sort">
+                <j:arg value="${numbers}" type="java.util.List" />
+            </j:invokeStatic>
+            <!-- get the first element after sorting -->
+            <j:set var="minVal" value="${numbers.get(0)}" />
+            <!-- get the last element after sorting -->
+            <j:set var="maxVal" value="${numbers.get(numbers.size() - 1)}" />
+
+            <p>Minimum value is ${minVal}</p>
+            <p>Maximum value is ${maxVal}</p>
+
+            <hr />
+
+            <!-- /// Set a style on purple color using java color /// -->
+            <h2>Set a style on purple color using java color</h2>
+            <p style="color: gray;">Color object with arguments: 128, 0, 128</p>
+
+            <j:new className="java.awt.Color" var="purple">
+                <j:arg value="128" type="int" />
+                <j:arg value="0" type="int" />
+                <j:arg value="128" type="int" />
+            </j:new>
+            <p style="color: rgb(${purple.getRed()}, ${purple.getGreen()}, ${purple.getBlue()});">This
+                text is purple</p>
+
+            <hr />
+
+            <!-- /// is Even Task /// -->
+            <h2>is Even Task</h2>
+            <p style="color: gray;">Input: 10</p>
+
+            <p>${functions.isEven(10)}</p>
+
+            <hr />
+
+            <!-- /// capitalize Task /// -->
+            <h2>capitalize Task</h2>
+            <p style="color: gray;">Inputs: 'hello there!' and an empty string</p>
+
+            <p>${functions.capitalize('hello there!')}</p>
+            <p>${functions.capitalize('')}</p>
+
+            <hr />
+
+            <!-- /// Function that takes a date and calculates age in years /// -->
+            <h2>Function that takes a date and calculates age in years</h2>
+
+            <j:set var="userDob" value="2000-01-01" />
+
+            <div>
+                <p style="color: gray;">Input: ${userDob}</p>
+                <p>Calculated Age: ${functions.calculateAge(userDob)} years old</p>
+            </div>
+
+            <hr />
+
+            <!-- Function that throws an error if password is less than 8 characters -->
+            <h2>Function that throws an error if password is less than 8 characters</h2>
+
+            <j:set var="password" value="1234567" />
+
+            <div>
+                <p style="color: gray;">Input: ${password}</p>
+                <p style="color: gray;">Password Length: ${password.length()}</p>
+
+                <j:catch var="myError">
+                    <j:invoke on="${functions}" method="validatePassword" var="validationResult">
+                        <j:arg value="${password}" />
+                    </j:invoke>
+                </j:catch>
+
+                <j:choose>
+                    <j:when test="${!empty(myError)}">
+                        <p style="color: red;">Error: ${myError.cause.message}</p>
+                    </j:when>
+
+                    <j:otherwise>
+                        <p style="color: green;">Success: ${validationResult}</p>
+                    </j:otherwise>
+                </j:choose>
+            </div>
+            <hr />
+            <img src="https://media.tenor.com/pagVxAkHfWAAAAAM/my-job-here-is-done-bye.gif" />
+        </body>
+    </html>
+</j:jelly>

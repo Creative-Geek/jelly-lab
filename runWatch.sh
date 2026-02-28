@@ -1,0 +1,1 @@
+fswatch -o src | xargs -n1 -I{} sh -c 'mvn clean compile exec:java "-Dexec.mainClass=com.example.Main"'
